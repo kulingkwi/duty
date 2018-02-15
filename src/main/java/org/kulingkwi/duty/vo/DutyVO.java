@@ -6,6 +6,7 @@ public class DutyVO {
   private Integer month;
   private Integer day;
   private Integer userId;
+  private String Date;
   private String workStatus;
 
   public Integer getId() {
@@ -47,6 +48,14 @@ public class DutyVO {
   public void setDay(Integer day) {
     this.day = day;
   }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
 
     public String getWorkStatus() {
         return workStatus;

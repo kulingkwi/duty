@@ -2,6 +2,7 @@ package org.kulingkwi.duty.service;
 
 import org.kulingkwi.duty.dao.UserDao;
 import org.kulingkwi.duty.entity.User;
+import org.kulingkwi.duty.util.DateUtil;
 import org.kulingkwi.duty.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class UserService {
         User user = new User();
         user.setName(userVO.getName());
         user.setStatus("A");
-        user.setCreateTime(new Date());
+        user.setCreateTime(DateUtil.now());
         userDao.save(user);
         return userVO;
     }
@@ -51,7 +52,7 @@ public class UserService {
     public List<UserVO> getUsers(UserVO userVO) {
         List<UserVO> voList = new ArrayList<>();
         List<User> userList = userDao.findAll();
-        if (userList != null) {
+        if (userList != null && !userList.isEmpty()) {
             for(User user : userList) {
                 UserVO vo = new UserVO();
                 vo.setId(user.getId());
