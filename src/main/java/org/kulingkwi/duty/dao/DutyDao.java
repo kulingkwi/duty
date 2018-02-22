@@ -17,4 +17,6 @@ public interface DutyDao extends JpaRepository<Duty, Integer> {
 
     List<Duty> findByUserIdAndYearAndMonth(int userId, int year, int month);
 
+    Duty findOneByUserIdAndFullDate(int userId, String fullDate);
+
 }

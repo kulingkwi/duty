@@ -24,16 +24,42 @@ public class DutyService {
     private DutyDao dutyDao;
 
     public DutyVO saveDuty(DutyVO vo) {
-        Duty duty = new Duty();
-        duty.setFullDate(DateUtil.format(DateUtil.getDate(vo.getYear(), vo.getMonth(), vo.getDay()), DateUtil.DF_YYYYMMDD));
-        duty.setYear(vo.getYear());
-        duty.setMonth(vo.getMonth());
-        duty.setDay(vo.getDay());
-        duty.setUserId(vo.getUserId());
-        duty.setWorkStatus(WorkStatus.from(vo.getWorkStatus()).getId());
-        duty.setCreateTime(DateUtil.now());
-        dutyDao.save(duty);
+        if (vo.getDay() != null) {
+            Duty duty = new Duty();
+            duty.setFullDate(DateUtil.format(DateUtil.getDate(vo.getYear(), vo.getMonth(), vo.getDay()), DateUtil.DF_YYYYMMDD));
+            duty.setYear(vo.getYear());
+            duty.setMonth(vo.getMonth());
+            duty.setDay(vo.getDay());
+            duty.setUserId(vo.getUserId());
+            duty.setWorkStatus(WorkStatus.from(vo.getWorkStatus()).getId());
+            duty.setCreateTime(DateUtil.now());
+            saveOrUpdate(duty);
+        } else if (vo.getDays() != null && vo.getDays().length > 0) {
+            for (String day : vo.getDays()) {
+                Duty duty = new Duty();
+                duty.setFullDate(DateUtil.format(DateUtil.getDate(vo.getYear(), vo.getMonth(), Integer.valueOf(day)), DateUtil.DF_YYYYMMDD));
+                duty.setYear(vo.getYear());
+                duty.setMonth(vo.getMonth());
+                duty.setDay(Integer.valueOf(day));
+                duty.setUserId(vo.getUserId());
+                duty.setWorkStatus(WorkStatus.from(vo.getWorkStatus()).getId());
+                duty.setCreateTime(DateUtil.now());
+                saveOrUpdate(duty);
+            }
+        }
+
         return vo;
+    }
+
+    private void saveOrUpdate(Duty duty) {
+        Duty old = dutyDao.findOneByUserIdAndFullDate(duty.getUserId(), duty.getFullDate());
+        if (old != null) {
+            old.setWorkStatus(duty.getWorkStatus());
+            old.setUpdateTime(DateUtil.now());
+            dutyDao.save(old);
+        } else {
+            dutyDao.save(duty);
+        }
     }
 
     public List<DutyVO> getUserMonthDuty(int userId, int year, int month) {

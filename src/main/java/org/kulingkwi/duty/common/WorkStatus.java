@@ -1,11 +1,14 @@
 package org.kulingkwi.duty.common;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * File: WorkStatus.java
  * Desc:
  * Author: gui chulin
  * Datetime: 2018-02-15  08:30
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum WorkStatus {
     BAI("1", "白"), DA("2", "大"), XIAO("3", "小"), XIA("4", "下"), XIU("5", "休") ;
 

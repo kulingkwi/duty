@@ -8,6 +8,7 @@ public class DutyVO {
   private Integer userId;
   private String Date;
   private String workStatus;
+  private String[] days;
 
   public Integer getId() {
     return id;
@@ -63,5 +64,13 @@ public class DutyVO {
 
     public void setWorkStatus(String workStatus) {
         this.workStatus = workStatus;
+    }
+
+    public String[] getDays() {
+        return days;
+    }
+
+    public void setDays(String[] days) {
+        this.days = days;
     }
 }
